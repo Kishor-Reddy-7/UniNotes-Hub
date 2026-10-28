@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-paper: #fbf9f4;
+    --bg-paper-subtle: #f5f1e8;
+    --bg-card: #ffffff;
+    --text-ink: #111827;
+    --text-muted: #64748b;
+    --border-paper: #e4dcce;
+    --primary-ink: #152238;
+    --accent-oxblood: #991b1b;
+    --accent-oxblood-subtle: #fef2f2;
+  }
+
+  .dark {
+    --bg-paper: #0f131a;
+    --bg-paper-subtle: #171d26;
+    --bg-card: #1c222e;
+    --text-ink: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border-paper: #2e3848;
+    --primary-ink: #38bdf8;
+    --accent-oxblood: #f87171;
+    --accent-oxblood-subtle: #450a0a;
+  }
+
+  body {
+    background-color: var(--bg-paper);
+    color: var(--text-ink);
+    font-family: 'Inter Tight', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: 'Fraunces', Georgia, serif;
+    font-optical-sizing: auto;
+  }
+
+  .font-catalogue-mono {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+  }
+}
+
+/* Custom scrollbars for library desks */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}

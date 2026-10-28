@@ -1,0 +1,6 @@
+{
+  "name": "UniNotes Hub - University Academic Notes Platform",
+  "description": "Centralized university notes platform with Google Drive hierarchy mapping, semester & subject navigation, document reader, and AI study tools (summaries, quizzes, flashcards, practice questions).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

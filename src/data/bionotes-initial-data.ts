@@ -1,0 +1,619 @@
+import { 
+  DepartmentItem, 
+  BioNote, 
+  User, 
+  FacultyVerificationRequest, 
+  CommunityMessage, 
+  ActivityLog 
+} from '../types/bionotes';
+
+export const INITIAL_HIERARCHY: DepartmentItem[] = [
+  {
+    id: 'dept-bio',
+    name: 'Biotechnology & Life Sciences',
+    code: 'BIO',
+    description: 'Cell biology, molecular genetics, bioprocess technology, and genomics.',
+    semesters: [
+      {
+        semesterNumber: 1,
+        subjects: [
+          {
+            id: 'sub-bio-101',
+            name: 'Cell Biology & Molecular Genetics',
+            code: 'BIO101',
+            credits: 4,
+            units: [
+              {
+                id: 'unit-bio-101-u1',
+                unitNumber: 1,
+                title: 'Cellular Architecture & Membrane Dynamics',
+                topics: [
+                  { id: 'top-bio-1', name: 'Fluid Mosaic Model & Lipid Bilayers' },
+                  { id: 'top-bio-2', name: 'Active & Passive Membrane Transport' },
+                  { id: 'top-bio-3', name: 'Endomembrane System & Protein Trafficking' },
+                ],
+              },
+              {
+                id: 'unit-bio-101-u2',
+                unitNumber: 2,
+                title: 'Cell Cycle, Mitosis & Checkpoints',
+                topics: [
+                  { id: 'top-bio-4', name: 'Stages of Mitosis & Kinetochore Motors' },
+                  { id: 'top-bio-5', name: 'Cyclin-CDK Complexes & p53 Checkpoints' },
+                  { id: 'top-bio-6', name: 'Meiotic Recombination & Chiasmata' },
+                ],
+              },
+              {
+                id: 'unit-bio-101-u3',
+                unitNumber: 3,
+                title: 'Mendelian & Chromosomal Inheritance',
+                topics: [
+                  { id: 'top-bio-7', name: 'Law of Segregation & Independent Assortment' },
+                  { id: 'top-bio-8', name: 'Epistasis & Gene Complementarity' },
+                ],
+              },
+            ],
+          },
+          {
+            id: 'sub-bio-102',
+            name: 'Fundamentals of Biotechnology',
+            code: 'BIO102',
+            credits: 3,
+            units: [
+              {
+                id: 'unit-bio-102-u1',
+                unitNumber: 1,
+                title: 'Recombinant DNA Tools & Restriction Enzymes',
+                topics: [
+                  { id: 'top-bio-9', name: 'Type II Endonucleases & Ligation' },
+                  { id: 'top-bio-10', name: 'pUC19 & Cloning Vector Design' },
+                  { id: 'top-bio-11', name: 'Blue-White Colony Screening' },
+                ],
+              },
+              {
+                id: 'unit-bio-102-u2',
+                unitNumber: 2,
+                title: 'Bioprocess Engineering & Fermentation',
+                topics: [
+                  { id: 'top-bio-12', name: 'Bioreactor Aeration & KLa Scaling' },
+                  { id: 'top-bio-13', name: 'Downstream Centrifugation & Ultrafiltration' },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        semesterNumber: 2,
+        subjects: [
+          {
+            id: 'sub-bio-201',
+            name: 'Microbiology & Microbial Genetics',
+            code: 'BIO201',
+            credits: 4,
+            units: [
+              {
+                id: 'unit-bio-201-u1',
+                unitNumber: 1,
+                title: 'Bacterial Cell Wall & Gram Staining',
+                topics: [
+                  { id: 'top-bio-14', name: 'Peptidoglycan Synthesis & Penicillin Action' },
+                  { id: 'top-bio-15', name: 'Gram Positive vs Gram Negative Wall Ultrastructure' },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'dept-cse',
+    name: 'Computer Science & Bioinformatics',
+    code: 'CSE',
+    description: 'Algorithms, biological data structures, and computational sequence analysis.',
+    semesters: [
+      {
+        semesterNumber: 1,
+        subjects: [
+          {
+            id: 'sub-cs-101',
+            name: 'Programming & Biological Computing',
+            code: 'CS101',
+            credits: 4,
+            units: [
+              {
+                id: 'unit-cs-101-u1',
+                unitNumber: 1,
+                title: 'Sequence Alignment Algorithms',
+                topics: [
+                  { id: 'top-cs-1', name: 'Needleman-Wunsch Global Dynamic Programming' },
+                  { id: 'top-cs-2', name: 'Smith-Waterman Local Alignment' },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        semesterNumber: 2,
+        subjects: [
+          {
+            id: 'sub-cs-201',
+            name: 'Data Structures & Search Algorithms',
+            code: 'CS201',
+            credits: 4,
+            units: [
+              {
+                id: 'unit-cs-201-u1',
+                unitNumber: 1,
+                title: 'Trees & Balanced Search Trees',
+                topics: [
+                  { id: 'top-cs-3', name: 'Binary Search Tree Invariants & Inorder Traversal' },
+                  { id: 'top-cs-4', name: 'AVL Rotations & Balance Factor Proofs' },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const INITIAL_USERS: User[] = [
+  {
+    id: 'usr-dev-master',
+    email: 'biospace3690@gmail.com',
+    name: 'Master Developer (BioNotes)',
+    role: 'developer',
+    status: 'active',
+    createdAt: '2026-10-01T08:00:00Z',
+  },
+  {
+    id: 'usr-fac-1',
+    email: 'dr.sunita@biouniversity.edu',
+    name: 'Dr. Sunita Sharma',
+    role: 'faculty',
+    status: 'active',
+    createdAt: '2026-10-05T10:00:00Z',
+    facultyProfile: {
+      department: 'Biotechnology & Life Sciences',
+      staffId: 'BIO-FAC-204',
+      designation: 'Associate Professor & Cell Biology Chair',
+      qualification: 'Ph.D. Molecular Biology (IISc), M.Tech Biotechnology',
+      reason: 'Author of official BIO101 curriculum notes and laboratory worksheets.',
+    },
+  },
+  {
+    id: 'usr-fac-2',
+    email: 'prof.nambiar@biouniversity.edu',
+    name: 'Prof. Arvind Nambiar',
+    role: 'faculty',
+    status: 'pending_verification',
+    createdAt: '2026-10-18T14:30:00Z',
+    facultyProfile: {
+      department: 'Biotechnology & Life Sciences',
+      staffId: 'BIO-FAC-319',
+      designation: 'Assistant Professor',
+      qualification: 'M.Tech Bioprocess Engineering',
+      reason: 'Need faculty upload shelf for Bioprocess Fermentation Unit 2 materials.',
+    },
+  },
+  {
+    id: 'usr-stu-1',
+    email: 'alex.student@biouniversity.edu',
+    name: 'Alex Rivera',
+    role: 'student',
+    status: 'active',
+    createdAt: '2026-10-12T09:15:00Z',
+  },
+];
+
+export const INITIAL_FACULTY_REQUESTS: FacultyVerificationRequest[] = [
+  {
+    id: 'req-fac-1',
+    userId: 'usr-fac-1',
+    email: 'dr.sunita@biouniversity.edu',
+    fullName: 'Dr. Sunita Sharma',
+    department: 'Biotechnology & Life Sciences',
+    staffId: 'BIO-FAC-204',
+    designation: 'Associate Professor & Cell Biology Chair',
+    qualification: 'Ph.D. Molecular Biology (IISc), M.Tech Biotechnology',
+    reason: 'Author of official BIO101 curriculum notes and laboratory worksheets.',
+    status: 'approved',
+    submittedAt: '2026-10-05T10:00:00Z',
+    reviewedAt: '2026-10-05T11:20:00Z',
+    reviewedBy: 'biospace3690@gmail.com',
+    reviewNote: 'Verified staff records with Department of Biotechnology registry.',
+  },
+  {
+    id: 'req-fac-2',
+    userId: 'usr-fac-2',
+    email: 'prof.nambiar@biouniversity.edu',
+    fullName: 'Prof. Arvind Nambiar',
+    department: 'Biotechnology & Life Sciences',
+    staffId: 'BIO-FAC-319',
+    designation: 'Assistant Professor',
+    qualification: 'M.Tech Bioprocess Engineering',
+    reason: 'Need faculty upload shelf for Bioprocess Fermentation Unit 2 lecture notes and video demonstration.',
+    status: 'pending',
+    submittedAt: '2026-10-18T14:30:00Z',
+  },
+];
+
+export const INITIAL_NOTES: BioNote[] = [
+  // NOTE 1: PDF Document (Core Syllabus)
+  {
+    id: 'note-bio-1',
+    catalogueNumber: 'BIO-S1-101-U1-001',
+    title: 'Cellular Architecture & Fluid Mosaic Membrane Dynamics',
+    description: 'Comprehensive lecture monograph on prokaryotic vs eukaryotic membrane organization, transmembrane proteins, and electrogenic Na+/K+ ATPase transport kinetics.',
+    departmentId: 'dept-bio',
+    departmentName: 'Biotechnology & Life Sciences',
+    semester: 1,
+    subjectId: 'sub-bio-101',
+    subjectCode: 'BIO101',
+    subjectName: 'Cell Biology & Molecular Genetics',
+    unitId: 'unit-bio-101-u1',
+    unitTitle: 'Unit 1: Cellular Architecture & Membrane Dynamics',
+    topicId: 'top-bio-1',
+    topicName: 'Fluid Mosaic Model & Lipid Bilayers',
+    fileName: 'BioNotes_BIO101_CellArchitecture_CoreMonograph.pdf',
+    fileType: 'pdf',
+    fileSize: '4.8 MB',
+    fileUrl: '#embedded-pdf-preview',
+    mimeType: 'application/pdf',
+    tags: ['Plasma Membrane', 'Fluid Mosaic', 'Lipid Bilayer', 'Na+/K+ ATPase', 'Exam Core'],
+    importance: 'core',
+    summaryText: 'Detailed study of phospholipid amphipathicity, cholesterol buffering, simple vs facilitated diffusion kinetics, and primary active transport stoichiometry.',
+    pagesCount: 8,
+    extractedContent: `BIONOTES ACADEMIC LIBRARY — OFFICIAL MONOGRAPH
+Catalogue Ref: BIO-S1-101-U1-001
+Course: BIO101 Cell Biology & Molecular Genetics
+Unit 1: Cellular Architecture & Membrane Dynamics
+Author: Dr. Sunita Sharma, Department of Biotechnology
+
+1. Eukaryotic vs. Prokaryotic Architecture:
+The fundamental dichotomy of cellular life separates prokaryotic cells (lacking membrane-bounded nucleoids and endomembrane compartments) from eukaryotic cells, characterized by complex organellar compartmentalization. Eukaryotic membranes define specialized biochemical microenvironments, allowing thermodynamically incompatible processes (such as ATP synthesis in mitochondria and macromolecular degradation in lysosomes) to occur simultaneously without mutual interference.
+
+2. The Fluid Mosaic Model (Singer & Nicolson, 1972):
+The plasma membrane is conceptualized as a two-dimensional fluid lipid bilayer consisting of amphipathic phosphoglycerides, sphingolipids, and sterols in which integral and peripheral proteins are immersed.
+- Hydrophilic heads (choline, phosphate, glycerol) interface with aqueous extracellular matrix and cytosol.
+- Hydrophobic fatty acyl chains face inward, creating an impermeable barrier to polar and charged solutes.
+- Cholesterol: Acts as a bidirectional fluidity buffer. At physiological temperatures (~37°C), the rigid steroid ring immobilizes neighboring fatty acid chains, decreasing permeability and excess fluidity. At lower temperatures, it prevents close packing and hydrophobic crystallization.
+
+3. Membrane Transport Mechanisms:
+a. Passive Transport (ΔG < 0, down electrochemical potential):
+   - Simple Diffusion: Lipophilic non-polar molecules (O2, CO2, N2, steroid hormones).
+   - Facilitated Diffusion: Utilizes specialized transmembrane channel proteins (Aquaporins) or carrier proteins (GLUT1). Exhibits classic Michaelis-Menten saturation kinetics.
+b. Primary Active Transport (ATP-driven, ΔG > 0):
+   - Na+/K+ ATPase: In each catalytic cycle, hydrolyzes 1 ATP molecule to export 3 Na+ ions out of the cytosol and import 2 K+ ions into the cell. Generates an electrogenic resting membrane potential (-70 mV) essential for secondary transport and action potentials.
+c. Secondary Active Transport (Coupled Solute Translocation):
+   - SGLT1 Na+/Glucose Symporter: Uses the inward sodium gradient generated by the primary pump to import glucose against a steep chemical gradient.
+
+4. Examination Focus & Key Formulae:
+- Electrochemical potential equation: Δμ = RT ln([Ci]/[Co]) + zFΔΨ.
+- Explain why integral membrane proteins traverse bilayers via hydrophobic alpha-helices with leucine, isoleucine, and valine residues.`,
+    authorId: 'usr-fac-1',
+    authorEmail: 'dr.sunita@biouniversity.edu',
+    authorName: 'Dr. Sunita Sharma',
+    viewCount: 342,
+    downloadCount: 189,
+    createdAt: '2026-10-06T10:15:00Z',
+    updatedAt: '2026-10-14T16:20:00Z',
+  },
+
+  // NOTE 2: PPTX Slide Deck (Core Syllabus)
+  {
+    id: 'note-bio-2',
+    catalogueNumber: 'BIO-S1-101-U2-002',
+    title: 'Mitosis Phases, Kinetochores & Spindle Assembly Checkpoints',
+    description: 'Faculty classroom slide presentation examining chromosome compaction, bi-orientation at metaphase plate, separase activation, and p53 cell cycle checkpoints.',
+    departmentId: 'dept-bio',
+    departmentName: 'Biotechnology & Life Sciences',
+    semester: 1,
+    subjectId: 'sub-bio-101',
+    subjectCode: 'BIO101',
+    subjectName: 'Cell Biology & Molecular Genetics',
+    unitId: 'unit-bio-101-u2',
+    unitTitle: 'Unit 2: Cell Cycle, Mitosis & Checkpoints',
+    topicId: 'top-bio-4',
+    topicName: 'Stages of Mitosis & Kinetochore Motors',
+    fileName: 'BIO101_Unit2_Mitosis_Checkpoints_LectureSlides.pptx',
+    fileType: 'pptx',
+    fileSize: '7.2 MB',
+    fileUrl: '#embedded-pptx-slides',
+    mimeType: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    tags: ['Mitosis', 'Checkpoints', 'Cyclin B-CDK1', 'Anaphase', 'Slide Deck'],
+    importance: 'core',
+    summaryText: 'Visual lecture presentation covering Prophase through Telophase with high-yield molecular checkpoint mechanisms.',
+    pagesCount: 6,
+    slides: [
+      {
+        slideNumber: 1,
+        title: 'Cell Division Cycle Overview & Interphase',
+        content: 'The eukaryotic cell cycle comprises G1 (growth and RNA biosynthesis), S (precise DNA replication 2C to 4C, centrosome duplication), G2 (pre-mitotic surveillance and tubulin synthesis), and M Phase.',
+        bulletPoints: [
+          'G1 phase: intense metabolic activity and cell enlargement',
+          'S phase: exact replication of chromosomal DNA',
+          'G2 phase: microtubule synthesis & DNA repair proofreading',
+          'Centrosome duplication occurs synchronously with DNA synthesis',
+        ],
+        notes: 'Emphasize that chromosome ploidy remains 2n during S phase, while DNA content doubles from 2C to 4C.',
+      },
+      {
+        slideNumber: 2,
+        title: 'Prophase & Prometaphase Mechanics',
+        content: 'Chromatin condensin complexes compact DNA fibers into distinct sister chromatids held by cohesin rings. Cyclin B-CDK1 phosphorylates nuclear lamins causing nuclear envelope disassembly.',
+        bulletPoints: [
+          'Condensin I & II drive chromosome condensation',
+          'Nuclear lamina breakdown via lamin phosphorylation',
+          'Trilaminar kinetochore plates assemble on centromeres',
+          'Microtubules capture kinetochores via search-and-capture search dynamics',
+        ],
+        notes: 'Remind students of the distinction between centromere heterochromatin and kinetochore protein assemblies.',
+      },
+      {
+        slideNumber: 3,
+        title: 'Metaphase Congression & Bi-orientation Tension',
+        content: 'Chromosomes align along the equatorial metaphase plate. The Spindle Assembly Checkpoint (SAC) remains active until every single kinetochore achieves amphitelic attachment with equal opposing tension.',
+        bulletPoints: [
+          'Equatorial alignment driven by kinesin-4/10 chromokinesins',
+          'Mad2 and BubR1 monitor unattached kinetochores',
+          'SAC blocks CDC20 binding to APC/C until all kinetochores are captured',
+          'Unattached kinetochores generate a diffusible "wait-anaphase" inhibitory signal',
+        ],
+      },
+      {
+        slideNumber: 4,
+        title: 'Anaphase Trigger: APC/C and Separase Activation',
+        content: 'Once bi-orientation is satisfied, APC/C ubiquitylates Securin. Liberated Separase cleaves the Scc1 subunit of cohesin, permitting synchronous sister chromatid migration to spindle poles.',
+        bulletPoints: [
+          'Anaphase A: Kinetochore microtubule depolymerization at plus and minus ends',
+          'Anaphase B: Interpolar microtubule sliding via plus-end kinesin-5 motors',
+          'Dynein motors pull astral microtubules towards the cell cortex',
+        ],
+      },
+      {
+        slideNumber: 5,
+        title: 'Telophase, Cytokinesis & Contractile Ring',
+        content: 'Nuclear envelopes reform around daughter chromatids. Dephosphorylation of lamins enables lamina repolymerization. In animal cells, an actin-myosin II contractile ring forms the cleavage furrow.',
+        bulletPoints: [
+          'De-condensation of daughter chromosomes',
+          'Re-assembly of nucleoli from NOR organizing regions',
+          'Midbody formation and abscission via ESCRT-III machinery',
+          'In plant cells: Phragmoplast guides Golgi-derived vesicles to synthesize cell plate',
+        ],
+      },
+      {
+        slideNumber: 6,
+        title: 'p53 & The G1/S DNA Damage Checkpoint',
+        content: 'Double-strand DNA breaks activate ATM/ATR protein kinases, phosphorylating Chk2 which stabilizes p53 tumor suppressor. p53 induces p21 CIP/WAF1, arresting cell cycle in G1.',
+        bulletPoints: [
+          'Mdm2 ubiquitin ligase targets normal p53 for degradation',
+          'Phosphorylated p53 dissociates from Mdm2 and acts as transcription factor',
+          'p21 binds and inhibits Cyclin E-CDK2 and Cyclin D-CDK4/6',
+          'Severe DNA damage triggers p53-mediated BAX transactivation leading to apoptosis',
+        ],
+      },
+    ],
+    extractedContent: `BIO101 SLIDE DECK: MITOSIS, KINETOCHORES & CHECKPOINTS
+Slide 1: Interphase (G1, S, G2). S phase doubles DNA content 2C to 4C.
+Slide 2: Prophase & Prometaphase. Phosphorylation of nuclear lamins by Cyclin B-CDK1 causes nuclear envelope breakdown.
+Slide 3: Metaphase plate alignment. Mad2 and BubR1 enforce the Spindle Assembly Checkpoint (SAC).
+Slide 4: Anaphase. APC/C degrades Securin. Separase cleaves cohesin rings. Sister chromatids move to opposite poles.
+Slide 5: Telophase & Cytokinesis. Actin-myosin II contractile ring produces cleavage furrow.
+Slide 6: G1/S Checkpoint & p53. ATM/ATR -> Chk2 -> p53 stabilization -> p21 CDK inhibitor induction.`,
+    authorId: 'usr-fac-1',
+    authorEmail: 'dr.sunita@biouniversity.edu',
+    authorName: 'Dr. Sunita Sharma',
+    viewCount: 289,
+    downloadCount: 147,
+    createdAt: '2026-10-09T14:00:00Z',
+    updatedAt: '2026-10-16T11:00:00Z',
+  },
+
+  // NOTE 3: DOCX Word Document (Reference Material)
+  {
+    id: 'note-bio-3',
+    catalogueNumber: 'BIO-S1-102-U1-003',
+    title: 'Recombinant DNA Tools, Cloning Vectors & Host Systems Handbook',
+    description: 'Faculty instructional guide detailing Type II restriction endonuclease cleavage kinetics, blunt vs sticky ligation, plasmid vector elements, and blue-white colony selection.',
+    departmentId: 'dept-bio',
+    departmentName: 'Biotechnology & Life Sciences',
+    semester: 1,
+    subjectId: 'sub-bio-102',
+    subjectCode: 'BIO102',
+    subjectName: 'Fundamentals of Biotechnology',
+    unitId: 'unit-bio-102-u1',
+    unitTitle: 'Unit 1: Recombinant DNA Tools & Restriction Enzymes',
+    topicId: 'top-bio-9',
+    topicName: 'Type II Endonucleases & Ligation',
+    fileName: 'BIO102_Unit1_rDNA_Cloning_Vectors_Handbook.docx',
+    fileType: 'docx',
+    fileSize: '3.1 MB',
+    fileUrl: '#embedded-docx-preview',
+    mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    tags: ['Restriction Enzymes', 'pUC19', 'T4 DNA Ligase', 'Blue-White Screening'],
+    importance: 'reference',
+    summaryText: 'Practical laboratory and examination handbook on restriction mapping, alkaline phosphatase dephosphorylation, and alpha-complementation screening.',
+    pagesCount: 5,
+    docxSections: [
+      {
+        heading: '1. Restriction Endonucleases: Molecular Scissors',
+        body: 'Discovered in bacterial defense systems against bacteriophage infection. Type II restriction endonucleases cleave within or adjacent to specific 4-to-8 base pair palindromic recognition sequences in the presence of divalent magnesium (Mg2+). EcoRI cuts at 5\'-G^AATTC-3\' generating cohesive 5\' overhangs, whereas SmaI cleaves at 5\'-CCC^GGG-3\' producing blunt termini.',
+      },
+      {
+        heading: '2. DNA Modifying Enzymes & Ligation Kinetics',
+        body: 'T4 DNA Ligase seals nicked phosphodiester backbones between adjacent 3\'-hydroxyl and 5\'-phosphate ends using ATP. To prevent self-ligation of empty vector backbones, Calf Intestinal Alkaline Phosphatase (CIAP) or Shrimp Alkaline Phosphatase (SAP) is incubated with linearized vectors to remove 5\'-phosphate moieties.',
+      },
+      {
+        heading: '3. Anatomy of a High-Copy Plasmid Vector (pUC19)',
+        body: 'Essential structural elements include: (a) pUC modified ColE1 Origin of Replication delivering 500-700 copies per cell; (b) Ampicillin resistance gene (bla) encoding beta-lactamase for antibiotic selection; (c) Multiple Cloning Site (MCS) embedded in-frame within the lacZ alpha-peptide gene.',
+      },
+      {
+        heading: '4. Alpha-Complementation & Blue-White Screening',
+        body: 'Host E. coli strains harbor a deletion in the lacZ gene (lacZΔM15). Intact vector supplies the alpha-peptide, reconstituting active beta-galactosidase which cleaves X-gal to form an insoluble blue 5,5\'-dibromo-4,4\'-dichloro-indigo precipitate. Successful insertion of foreign DNA disrupts the reading frame, producing recombinant white colonies.',
+      },
+    ],
+    extractedContent: `BIO102 HANDBOOK: RECOMBINANT DNA TOOLS & CLONING VECTORS
+Section 1: Type II restriction endonucleases cleave palindromic sequences (e.g. EcoRI G^AATTC, SmaI CCC^GGG).
+Section 2: T4 DNA Ligase requires ATP. Alkaline phosphatase (CIAP/SAP) dephosphorylates 5' ends to prevent vector self-recircularization.
+Section 3: pUC19 vector contains pUC high-copy origin, ampicillin selection marker, and MCS polylinker.
+Section 4: Blue-white screening relies on alpha-complementation. Recombinant clones disrupt lacZ and yield white colonies on X-gal + IPTG plates.`,
+    authorId: 'usr-fac-1',
+    authorEmail: 'dr.sunita@biouniversity.edu',
+    authorName: 'Dr. Sunita Sharma',
+    viewCount: 198,
+    downloadCount: 92,
+    createdAt: '2026-10-11T12:00:00Z',
+    updatedAt: '2026-10-15T09:30:00Z',
+  },
+
+  // NOTE 4: Image Note (High-Res Diagram)
+  {
+    id: 'note-bio-4',
+    catalogueNumber: 'BIO-S1-101-U1-004',
+    title: 'Eukaryotic Cell Ultrastructure & Endomembrane System Infographic',
+    description: 'High-resolution annotated biological diagram illustrating nuclear pore complexes, rough endoplasmic reticulum cisternae, trans-Golgi cisternae, mitochondria cristae, and lysosome pathways.',
+    departmentId: 'dept-bio',
+    departmentName: 'Biotechnology & Life Sciences',
+    semester: 1,
+    subjectId: 'sub-bio-101',
+    subjectCode: 'BIO101',
+    subjectName: 'Cell Biology & Molecular Genetics',
+    unitId: 'unit-bio-101-u1',
+    unitTitle: 'Unit 1: Cellular Architecture & Membrane Dynamics',
+    topicId: 'top-bio-3',
+    topicName: 'Endomembrane System & Protein Trafficking',
+    fileName: 'Eukaryotic_Cell_Ultrastructure_HighRes_Diagram.png',
+    fileType: 'image',
+    fileSize: '5.4 MB',
+    fileUrl: 'https://images.unsplash.com/photo-1530497610245-94d3c16cda28?auto=format&fit=crop&w=1200&q=80',
+    mimeType: 'image/png',
+    tags: ['Infographic', 'Endomembrane', 'Organelles', 'Golgi', 'Diagram'],
+    importance: 'core',
+    summaryText: 'Visual structural diagram showing spatial orientation of ribosomes, transitional vesicles, cis/medial/trans Golgi networks, and secretory vesicle exocytosis.',
+    extractedContent: `INFOGRAPHIC KEY LABELS & SCHEMATIC:
+- Nucleus: Double-membrane envelope with 120 nm nuclear pore complexes (NPCs) mediating karyopherin transport.
+- Rough ER: Ribosome-studded membranes where signal recognition particle (SRP) directs nascent peptide translocons.
+- Smooth ER: Tubular network dedicated to steroid hormone synthesis, cytochrome P450 xenobiotic detox, and Ca2+ storage.
+- Golgi Apparatus: Polarization from cis-face (COP II incoming vesicles) to trans-face (clathrin/secretory sorting).
+- Mitochondria: Cristae folds housing respiratory complexes I-IV and FoF1-ATP synthase rotors.`,
+    authorId: 'usr-fac-1',
+    authorEmail: 'dr.sunita@biouniversity.edu',
+    authorName: 'Dr. Sunita Sharma',
+    viewCount: 421,
+    downloadCount: 230,
+    createdAt: '2026-10-13T08:30:00Z',
+    updatedAt: '2026-10-13T08:30:00Z',
+  },
+
+  // NOTE 5: Video Lecture (Revision Lab Demonstration)
+  {
+    id: 'note-bio-5',
+    catalogueNumber: 'BIO-S1-102-U2-005',
+    title: 'Bioreactor Fluid Dynamics & Dissolved Oxygen KLa Measurement',
+    description: 'Laboratory demonstration video recording showing stirred-tank bioreactor impeller shear, dynamic gassing-out method for dissolved oxygen probe calibration, and volumetric oxygen transfer coefficient (KLa) calculations.',
+    departmentId: 'dept-bio',
+    departmentName: 'Biotechnology & Life Sciences',
+    semester: 1,
+    subjectId: 'sub-bio-102',
+    subjectCode: 'BIO102',
+    subjectName: 'Fundamentals of Biotechnology',
+    unitId: 'unit-bio-102-u2',
+    unitTitle: 'Unit 2: Bioprocess Engineering & Fermentation',
+    topicId: 'top-bio-12',
+    topicName: 'Bioreactor Aeration & KLa Scaling',
+    fileName: 'Bioreactor_Fluid_Dynamics_Lab_Demonstration.mp4',
+    fileType: 'video',
+    fileSize: '42.8 MB',
+    fileUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+    mimeType: 'video/mp4',
+    tags: ['Bioreactor', 'KLa Oxygen Transfer', 'Fermentation', 'Lab Video', 'Revision'],
+    importance: 'revision',
+    summaryText: 'Video demonstration of stirred-tank reactor operation, Rushton turbine hydrodynamics, sparger bubble dispersion, and oxygen mass transfer coefficient determination.',
+    extractedContent: `BIOREACTOR LABORATORY VIDEO LECTURE TRANSCRIPT:
+00:00 - Introduction to Stirred-Tank Bioreactor (CSTR) anatomy: Rushton turbine impellers, baffles, and ring spargers.
+03:15 - Principles of Aeration: Oxygen transfer from gas bubble to bulk liquid is governed by Whitman's Two-Film Theory.
+07:45 - The Oxygen Mass Transfer Equation: dCL/dt = KLa * (C* - CL).
+12:10 - The Dynamic Gassing-Out Method: Purging broth with nitrogen gas (N2) to strip dissolved O2, then re-aerating under measured agitation.
+18:30 - Graphical determination of KLa from slope of ln(C* - CL) vs time.`,
+    authorId: 'usr-fac-1',
+    authorEmail: 'dr.sunita@biouniversity.edu',
+    authorName: 'Dr. Sunita Sharma',
+    viewCount: 164,
+    downloadCount: 78,
+    createdAt: '2026-10-15T15:00:00Z',
+    updatedAt: '2026-10-15T15:00:00Z',
+  },
+];
+
+export const INITIAL_MESSAGES: CommunityMessage[] = [
+  {
+    id: 'msg-1',
+    senderId: 'usr-stu-1',
+    senderEmail: 'alex.student@biouniversity.edu',
+    senderName: 'Alex Rivera (Student)',
+    senderRole: 'student',
+    subject: 'Question on BIO101 Midterm: Na+/K+ Pump Stoichiometry & Inward Current',
+    message: 'Hello Dr. Sharma, in Unit 1 lecture notes, we calculated the resting membrane potential using Goldman-Hodgkin-Katz equation. Could you clarify how the 3 Na+ out vs 2 K+ in electrogenic ratio contributes directly to the net charge imbalance during high-frequency firing?',
+    department: 'Biotechnology & Life Sciences',
+    timestamp: '2026-10-19 11:24',
+    replies: [
+      {
+        id: 'rep-1',
+        senderName: 'Dr. Sunita Sharma (Faculty)',
+        senderRole: 'faculty',
+        text: 'Excellent question Alex! The 3:2 stoichiometry transfers one net positive elementary charge outward per ATP molecule hydrolyzed. While it contributes approximately 5 to 10 mV directly to resting potential, its primary role is sustaining the steep sodium electrochemical gradient utilized by secondary active symporters. See Section 3 of Note BIO-S1-101-U1-001.',
+        timestamp: '2026-10-19 13:40',
+      },
+    ],
+  },
+  {
+    id: 'msg-2',
+    senderId: 'usr-fac-2',
+    senderEmail: 'prof.nambiar@biouniversity.edu',
+    senderName: 'Prof. Arvind Nambiar (Faculty Applicant)',
+    senderRole: 'faculty',
+    subject: 'Submission of Bioprocess Unit 2 Slide Deck for Review',
+    message: 'I have prepared the pilot bioreactor scaling slides and fluid dynamic equations for Unit 2. Submitting this draft for library inclusion once my faculty verification request is processed by the developer team.',
+    attachmentName: 'Bioprocess_ScaleUp_Pilot_Draft.pdf',
+    attachmentType: 'pdf',
+    attachmentSize: '4.2 MB',
+    department: 'Biotechnology & Life Sciences',
+    timestamp: '2026-10-20 09:15',
+  },
+];
+
+export const INITIAL_ACTIVITY_LOGS: ActivityLog[] = [
+  {
+    id: 'act-1',
+    timestamp: '2026-10-24 05:30:12',
+    userEmail: 'biospace3690@gmail.com',
+    action: 'Developer Portal Audit',
+    details: 'Master developer authenticated. Reviewed catalogue inventory: 5 notes, 2 departments, 2 faculty profiles.',
+  },
+  {
+    id: 'act-2',
+    timestamp: '2026-10-19 13:40:00',
+    userEmail: 'dr.sunita@biouniversity.edu',
+    action: 'Faculty Note Update',
+    details: 'Updated monograph BIO-S1-101-U1-001 with new electrochemical potential formulae.',
+  },
+  {
+    id: 'act-3',
+    timestamp: '2026-10-18 14:30:00',
+    userEmail: 'prof.nambiar@biouniversity.edu',
+    action: 'Faculty Verification Request Submitted',
+    details: 'Submitted verification request for Department of Biotechnology & Life Sciences (Staff ID: BIO-FAC-319).',
+  },
+  {
+    id: 'act-4',
+    timestamp: '2026-10-05 11:20:00',
+    userEmail: 'biospace3690@gmail.com',
+    action: 'Faculty Approved',
+    details: 'Approved Dr. Sunita Sharma (BIO-FAC-204) with full faculty publishing and shelf management rights.',
+  },
+];
